@@ -45,12 +45,7 @@ lista_recursos(Lrecursos,R) :- .setof(resource(R,X,Y), resource(R,X,Y), Lrecurso
 +!check_for_resources
    :  resource_needed(R) & not found(R)
    <- .wait(100);
-      move_to(next_cell).
-
-+!check_for_resources
-   :  resource_needed(R) & not found(R)
-   <- .wait(100);
-      move_to(next_cell).
+         move_to(next_cell).
 
 +!stop_checking : true
    <- ?my_pos(X,Y);
