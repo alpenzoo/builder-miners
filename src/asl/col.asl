@@ -19,6 +19,9 @@ resource_needed(1).
       !go(R);
       if (found(R)) {
          !take(R,boss);
+      } else {
+         .print("Percebeu o esgotamento.");
+         !go(boss);
       };
       !continue_mine.
 
@@ -69,7 +72,7 @@ resource_needed(1).
 
 +!go(Position) 
    :  pos(Position,X,Y) & my_pos(X,Y)
-   <- true.
+   <- true. 
 
 +!go(Position) : true
    <- ?pos(Position,X,Y);
