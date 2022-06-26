@@ -16,8 +16,8 @@ resource_needed(1).
    : resource_needed(R) & pos(R,X,Y) & not my_pos(X,Y)
    <- -checking_cells;
       +pos(back,X,Y);
-      !go(R);
       if (found(R)) {
+         !go(R);
          !take(R,boss);
       } else {
          .print("Percebeu o esgotamento.");
