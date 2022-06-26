@@ -2,8 +2,6 @@ pos(boss,15,15).
 checking_cells.
 resource_needed(1).
 
-lista_recursos(Lrecursos,R) :- .setof(resource(R,X,Y), resource(R,X,Y), Lrecursos).
-
 +my_pos(X,Y) 
    :  checking_cells & not building_finished
    <- !check_for_resources.
@@ -55,9 +53,9 @@ lista_recursos(Lrecursos,R) :- .setof(resource(R,X,Y), resource(R,X,Y), Lrecurso
 +!take(R,B) : true
    <- 
       .wait(100);
-         mine(R);
-      !go(B);
-      drop(R).
+      mine(R);
+      drop(R);
+      !go(B).
 
 +!continue_mine : true
    <- !go(back);
