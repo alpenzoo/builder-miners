@@ -2,31 +2,55 @@ pos(boss,15,15).
 checking_cells.
 resource_needed(1).
 
+lista_recursos(Lrecursos,R) :- .setof(resource(R,X,Y), resource(R,X,Y), Lrecursos).
+
 +my_pos(X,Y) 
    :  checking_cells & not building_finished
    <- !check_for_resources.
 
-+!check_for_resources
-   :  resource_needed(R) & found(R) & not pos(R,X,Y)
-   <- !stop_checking;
-      ?my_pos(X,Y);
-      +pos(R,X,Y);
-      !take(R,boss);
-      .broadcast(tell,pos(R,X,Y));
-      !continue_mine.  
++found(R) 
+	: not resource_needed(R)
+	<-
+		?my_pos(X,Y);
+		+resource(R,X,Y).
 
 +!check_for_resources
-   :  resource_needed(R) & pos(R,X,Y) 
-   <- !stop_checking;
+   : resource_needed(R) & pos(R,X,Y) & not my_pos(X,Y)
+   <- -checking_cells;
+      +pos(back,X,Y);
       !go(R);
       !take(R,boss);
       !continue_mine.
 
-      
++!check_for_resources
+   : resource_needed(R) & pos(R,X,Y) & my_pos(X,Y) & not found(R)
+   <- -pos(R,X,Y);
+      .abolish(pos(R,X,Y));
+      .wait(100);
+      move_to(next_cell).
+
++!check_for_resources
+   : resource_needed(R) & pos(R,X,Y) & my_pos(X,Y) & found(R)
+   <- !stop_checking;
+      !take(R,boss);
+      !continue_mine.  
+
++!check_for_resources
+   :  resource_needed(R) & not pos(R,X,Y) & my_pos(X,Y) & found(R)
+   <- !stop_checking;
+      .broadcast(tell,pos(R,X,Y));
+      !take(R,boss);
+      !continue_mine.   
+
 +!check_for_resources
    :  resource_needed(R) & not found(R)
    <- .wait(100);
-         move_to(next_cell).
+      move_to(next_cell).
+
++!check_for_resources
+   :  resource_needed(R) & not found(R)
+   <- .wait(100);
+      move_to(next_cell).
 
 +!stop_checking : true
    <- ?my_pos(X,Y);
@@ -36,7 +60,7 @@ resource_needed(1).
 +!take(R,B) : true
    <- 
       .wait(100);
-      mine(R);
+         mine(R);
       !go(B);
       drop(R).
 
