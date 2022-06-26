@@ -17,7 +17,9 @@ resource_needed(1).
    <- -checking_cells;
       +pos(back,X,Y);
       !go(R);
-      !take(R,boss);
+      if (found(R)) {
+         !take(R,boss);
+      };
       !continue_mine.
 
 +!check_for_resources
@@ -54,8 +56,8 @@ resource_needed(1).
    <- 
       .wait(100);
       mine(R);
-      drop(R);
-      !go(B).
+      !go(B);
+      drop(R).
 
 +!continue_mine : true
    <- !go(back);
