@@ -26,7 +26,7 @@ resource_needed(1).
    : resource_needed(R) & pos(R,X,Y) & my_pos(X,Y) & not found(R)
    <- -pos(R,X,Y);
       .abolish(pos(R,X,Y));
-      .wait(100);
+      .wait(50);
       move_to(next_cell).
 
 +!check_for_resources
@@ -44,7 +44,7 @@ resource_needed(1).
 
 +!check_for_resources
    :  resource_needed(R) & not found(R)
-   <- .wait(100);
+   <- .wait(50);
          move_to(next_cell).
 
 +!stop_checking : true
@@ -54,8 +54,10 @@ resource_needed(1).
 
 +!take(R,B) : true
    <- 
-      .wait(100);
-      mine(R);
+      .wait(50);
+      if (found(R)) {
+         mine(R);
+      };
       !go(B);
       drop(R).
 
@@ -71,7 +73,7 @@ resource_needed(1).
 
 +!go(Position) : true
    <- ?pos(Position,X,Y);
-      .wait(100);
+      .wait(50);
       move_towards(X,Y);
       !go(Position).
 
