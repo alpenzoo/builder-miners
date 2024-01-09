@@ -1,2 +1,2 @@
-# sa-robos-mineradores
-Robôs Mineradores Linguagem JASON
+# Builder-miners simulator, JASON programming language.
+Builder-miners simulator, JASON programming language.
